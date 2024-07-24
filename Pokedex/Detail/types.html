@@ -23,7 +23,7 @@
 
             const pokemonList = typeData.pokemon.map(poke => 
                 `<div class='col-12 col-sm-6 col-md-4 col-lg-3'>
-                    <a href='../details/details.html?name=${poke.pokemon.name}'>
+                    <a href='../Detail/details.html?name=${poke.pokemon.name}'>
                         <div class='card'>
                             <img class='card-img-top' src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${poke.pokemon.url.split('/').slice(-2, -1)}.png' />
                             <div class='card-body'>${poke.pokemon.name}</div>
