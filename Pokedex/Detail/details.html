@@ -7,74 +7,58 @@
     <title>Pokemon Details</title>
     <style>
         body {
-            background-color: #1a1a1a;
-            color: #f0f0f0;
-            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: 'Roboto', sans-serif;
         }
         h1 {
             margin-bottom: 2rem;
             text-align: center;
             color: #ffffff;
-            text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
+            text-shadow: 0 0 10px #00ff00;
         }
         .container {
             max-width: 600px;
+            margin-top: 2rem;
         }
         .card {
+            background-color: #1e1e1e;
+            border: none;
             margin-bottom: 1rem;
-            background-color: #2e2e2e;
-            border: 1px solid #444;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
         }
         .card .card-body {
-            color: #f0f0f0;
+            color: #e0e0e0;
         }
-        p, ul {
-            color: #ffffff;
-            text-shadow: 0 0 5px #00ff00;
+        p, li {
+            color: #e0e0e0;
         }
         a {
             color: #00ff00;
             text-shadow: 0 0 5px #00ff00;
+        }
+        a:hover {
+            text-shadow: 0 0 15px #00ff00;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1 id="pokemon-name"></h1>
-        <img id="pokemon-sprite" src="" alt="Pokemon Sprite" class="img-fluid"/>
-        <p><strong>Height:</strong> <span id="pokemon-height"></span></p>
-        <p><strong>Weight:</strong> <span id="pokemon-weight"></span></p>
-        <p><strong>Types:</strong> <span id="pokemon-types"></span></p>
-        <p><strong>Stats:</strong></p>
-        <ul id="pokemon-stats" class="list-group"></ul>
-        <p><strong>Abilities:</strong> <span id="pokemon-abilities"></span></p>
+        <div class="card">
+            <img id="pokemon-sprite" src="" alt="Pokemon Sprite" class="img-fluid card-img-top"/>
+            <div class="card-body">
+                <p><strong>Height:</strong> <span id="pokemon-height"></span></p>
+                <p><strong>Weight:</strong> <span id="pokemon-weight"></span></p>
+                <p><strong>Types:</strong> <span id="pokemon-types"></span></p>
+                <p><strong>Stats:</strong></p>
+                <ul id="pokemon-stats" class="list-group list-group-flush"></ul>
+                <p><strong>Abilities:</strong> <span id="pokemon-abilities"></span></p>
+            </div>
+        </div>
     </div>
     <script>
         const urlParams = new URLSearchParams(window.location.search);
-        const pokemonName = urlParams.get('name');
-
-        const typeColors = {
-            normal: "#A8A77A",
-            fire: "#EE8130",
-            water: "#6390F0",
-            electric: "#F7D02C",
-            grass: "#7AC74C",
-            ice: "#96D9D6",
-            fighting: "#C22E28",
-            poison: "#A33EA1",
-            ground: "#E2BF65",
-            flying: "#A98FF3",
-            psychic: "#F95587",
-            bug: "#A6B91A",
-            rock: "#B6A136",
-            ghost: "#735797",
-            dragon: "#6F35FC",
-            dark: "#705746",
-            steel: "#B7B7CE",
-            fairy: "#D685AD"
-        };
-
+        const pokemonName = urlParams.get('name');     
         fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`)
         .then(response => response.json())
         .then(pokemon => {
@@ -83,6 +67,27 @@
             document.getElementById('pokemon-height').textContent = pokemon.height;
             document.getElementById('pokemon-weight').textContent = pokemon.weight;
 
+            const typeColors = {
+                normal: '#A8A77A',
+                fire: '#EE8130',
+                water: '#6390F0',
+                electric: '#F7D02C',
+                grass: '#7AC74C',
+                ice: '#96D9D6',
+                fighting: '#C22E28',
+                poison: '#A33EA1',
+                ground: '#E2BF65',
+                flying: '#A98FF3',
+                psychic: '#F95587',
+                bug: '#A6B91A',
+                rock: '#B6A136',
+                ghost: '#735797',
+                dragon: '#6F35FC',
+                dark: '#705746',
+                steel: '#B7B7CE',
+                fairy: '#D685AD'
+            };
+
             const types = pokemon.types.map(typeInfo => {
                 const typeName = typeInfo.type.name;
                 return `<a href="../Detail/types.html?type=${typeName}" style="color: ${typeColors[typeName]};">${typeName}</a>`;
@@ -90,18 +95,12 @@
 
             document.getElementById('pokemon-types').innerHTML = types;
 
-            const stats = pokemon.stats.map(stat => `<li class="list-group-item">${stat.stat.name}: ${stat.base_stat}</li>`).join('');
+            const stats = pokemon.stats.map(stat => `<li class="list-group-item" style="background-color: #1e1e1e; color: #e0e0e0;">${stat.stat.name}: ${stat.base_stat}</li>`).join('');
             document.getElementById('pokemon-stats').innerHTML = stats;
 
             const abilities = pokemon.abilities.map(abilityInfo => `<a href="../Detail/abilities.html?ability=${abilityInfo.ability.name}">${abilityInfo.ability.name}</a>`).join(', ');
             document.getElementById('pokemon-abilities').innerHTML = abilities;
 
-            document.querySelectorAll('.list-group-item').forEach(item => {
-                item.style.backgroundColor = '#2e2e2e';
-                item.style.border = '1px solid #444';
-                item.style.color = '#ffffff';
-                item.style.textShadow = '0 0 5px #00ff00';
-            });
         })
         .catch(error => console.error(error));
     </script>
